@@ -9,11 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -25,14 +23,17 @@ public class SessionController
     SessionService sessionService;
 
     @PostMapping("")
-    public Map<String, String> login(@RequestParam String username, @RequestParam String password)
+    public Map<String, String> login(@RequestBody HashMap hashMap)
     {
+        String username = (String) hashMap.get("username");
+        String password = (String) hashMap.get("password");
         return sessionService.loginSession(username, password);
     }
 
     @PostMapping("/test")
     public String test()
     {
+        System.out.println("test");
         return "admin";
     }
 
