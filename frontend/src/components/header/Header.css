@@ -3,24 +3,24 @@
     padding: .5rem 0;
     align-items: center;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
-.headerLeft, .headerRight {
+.headerLeft,
+.headerRight {
     display: flex;
     align-items: center;
-
 }
 
-a > span{
+a>span {
     margin: 0 30px;
     font-size: 1.3rem;
     cursor: pointer;
     color: white;
 }
 
-a > span:hover {
-    color: red;
+a>span:hover {
+    color: #F5C518;
 }
 
 .header__icon {
@@ -32,3 +32,37 @@ a > span:hover {
     font-size: 2rem;
 }
 
+.search-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.suggestions {
+    position: absolute;
+    z-index: 1;
+    top: 45px;
+    width: 100%;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    border-bottom: none;
+    border-top: none;
+    background-color: #f1f1f1;
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.suggestions div:hover {
+    background-color: #e9e9e9;
+}
+
+.loginButton {
+    position: absolute;
+    right: 30px;
+}
