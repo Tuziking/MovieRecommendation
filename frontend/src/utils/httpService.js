@@ -9,21 +9,6 @@ class HttpService {
                 'Content-Type': 'application/json',
             },
         });
-
-        // 请求拦截器
-        this.axiosInstance.interceptors.request.use(
-            config => {
-                // 可以在这里添加统一的请求头，例如 token
-                const token = sessionStorage.getItem('token');
-                if (token) {
-                    config.headers['Authorization'] = `${token}`;
-                }
-                return config;
-            },
-            error => {
-                return Promise.reject(error);
-            }
-        );
     }
 
     async get(url, params) {
@@ -48,5 +33,35 @@ class HttpService {
 }
 
 const httpService = new HttpService();
+
+// 设置请求拦截器
+httpService.http.interceptors.request.use(
+    config => {
+        // 可以在这里添加统一的请求头，例如 token
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            config.headers['Authorization'] = `${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
+// 设置响应拦截器
+httpService.http.interceptors.response.use(
+    response => {
+        // 对响应数据做点什么
+        return response;
+    },
+    error => {
+        // 对响应错误做点什么
+        if (error.response && error.response.status === 401) {
+            console.error('Unauthorized, please login.');
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default httpService;
