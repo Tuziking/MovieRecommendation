@@ -11,23 +11,23 @@ class HttpService {
         });
     }
 
-    async get(url, params) {
-        const response = await this.http.get(url, { params });
+    async get(url, params, headers = {}) {
+        const response = await this.http.get(url, { params, headers: { ...this.http.defaults.headers, ...headers } });
         return response.data;
     }
 
-    async post(url, data) {
-        const response = await this.http.post(url, data);
+    async post(url, data, headers = {}) {
+        const response = await this.http.post(url, data, { headers: { ...this.http.defaults.headers, ...headers } });
         return response.data;
     }
 
-    async put(url, data) {
-        const response = await this.http.put(url, data);
+    async put(url, data, headers = {}) {
+        const response = await this.http.put(url, data, { headers: { ...this.http.defaults.headers, ...headers } });
         return response.data;
     }
 
-    async delete(url, params) {
-        const response = await this.http.delete(url, { params });
+    async delete(url, params, headers = {}) {
+        const response = await this.http.delete(url, { params, headers: { ...this.http.defaults.headers, ...headers } });
         return response.data;
     }
 }
