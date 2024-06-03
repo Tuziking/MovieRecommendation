@@ -17,6 +17,10 @@ const Movie = () => {
         window.scrollTo(0, 0)
     }, [getData])
 
+    const handleLike = () => {
+
+    }
+
     return (
         <div className="movie">
             <div className="movie__intro">
@@ -58,9 +62,9 @@ const Movie = () => {
                 </div>
             </div>
             <div className="movie__links">
-                <div className="movie__heading">Useful Links</div>
+                {/*<div className="movie__heading"></div>*/}
                 {
-                    currentMovieDetail && currentMovieDetail.homepage && <a href={currentMovieDetail.homepage} target="_blank" rel="noreferrer" style={{ textDecoration: "none" }}><p><span className="movie__homeButton movie__Button">Homepage <i className="newTab fas fa-external-link-alt"></i></span></p></a>
+                    currentMovieDetail && currentMovieDetail.homepage && <div  style={{ textDecoration: "none" }} onClick={handleLike}><p><span className="movie__homeButton movie__Button">Like <i className="newTab fas fa-external-link-alt"></i></span></p></div>
                 }
                 {
                     currentMovieDetail && currentMovieDetail.imdb_id && <a href={"https://www.imdb.com/title/" + currentMovieDetail.imdb_id} target="_blank" rel="noreferrer" style={{ textDecoration: "none" }}><p><span className="movie__imdbButton movie__Button">IMDb<i className="newTab fas fa-external-link-alt"></i></span></p></a>

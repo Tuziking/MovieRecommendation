@@ -81,10 +81,10 @@ public class JwtUtils
      * @param subject 主题
      * @return Token
      */
-    public static String generateToken(String subject)
-    {
-        return generateToken(subject, jwtConfig.getExpirationTime());
-    }
+//    public static String generateToken(String subject)
+//    {
+//        return generateToken(subject, jwtConfig.getExpirationTime());
+//    }
 
     /**
      * 生成 Token
@@ -104,6 +104,19 @@ public class JwtUtils
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)
                 .sign(jwtConfig.getAlgorithm());
+    }
+
+    public static String generateToken(String userId) {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + jwtConfig.getExpirationTime() * 1000);
+
+        return JWT.create()
+            .withSubject(userId)  // 将用户ID设置为主题
+            .withIssuer(jwtConfig.getIssuer())
+            .withAudience(jwtConfig.getAudience())
+            .withIssuedAt(now)
+            .withExpiresAt(expiration)
+            .sign(jwtConfig.getAlgorithm());
     }
 
     /**
@@ -163,7 +176,7 @@ public class JwtUtils
      * @return 主题
      */
     public static String getSubject(String token) {
-        token = getTokenContent(token);
+//        token = getTokenContent(token);
         return JWT.decode(token).getSubject();
     }
 
