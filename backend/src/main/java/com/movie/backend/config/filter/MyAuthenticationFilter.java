@@ -38,6 +38,7 @@ public class MyAuthenticationFilter extends OncePerRequestFilter
             boolean verifyToken = JwtUtils.isValidToken(requestToken);
             if (!verifyToken) {
                 filterChain.doFilter(request, response);
+                return;
             }
 
             // 解析token中的用户信息
