@@ -6,12 +6,12 @@ export default function Register() {
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
         // 这里你可以添加注册的逻辑，例如发送一个注册请求
-        httpService.post('/api/register', values)
+        httpService.post('/user', values)
             .then(res => {
                 console.log(res);
                 // 这里你可以添加注册成功的逻辑，例如保存token
-                sessionStorage.setItem('token', res.data.token);
-                sessionStorage.setItem('username', values.username);
+                // sessionStorage.setItem('token', res.data.token);
+                // sessionStorage.setItem('username', values.username);
                 // 这里你可以添加其他的操作，例如重定向到首页
                 window.location.href = '/';
             })

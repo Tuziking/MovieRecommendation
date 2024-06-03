@@ -10,6 +10,10 @@ const Home = () => {
     const [popularMovies, setPopularMovies] = useState([])
 
     useEffect(() => {
+        // 先用用户喜欢的电影进行推荐，若没有再使用热门电影进行推荐
+        // 用户喜欢的电影
+        // fetch("https://api.themoviedb.org/3/movie/550")
+        // 热门电影
         fetch("https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US")
             .then(res => res.json())
             .then(data => setPopularMovies(data.results))

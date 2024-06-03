@@ -40,26 +40,28 @@ a>span:hover {
 }
 
 .suggestions {
+    color: #f1f1f1;
     position: absolute;
     z-index: 1;
     top: 45px;
     width: 100%;
-    border: 1px solid #d4d4d4;
+    border: 1px solid #2e2e2e;
     border-radius: 5px;
     border-bottom: none;
     border-top: none;
-    background-color: #f1f1f1;
+    background-color: #2e2e2e;
 }
 
 .suggestions div {
+    color: #f1f1f1;
     padding: 10px;
     cursor: pointer;
-    background-color: #f1f1f1;
+    background-color: #2e2e2e;
     border-radius: 5px;
 }
 
 .suggestions div:hover {
-    background-color: #e9e9e9;
+    background-color: #3e3e3e;
 }
 
 .loginButton {

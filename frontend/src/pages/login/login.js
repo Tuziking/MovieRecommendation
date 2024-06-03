@@ -5,14 +5,13 @@ import httpService from '../../utils/httpService';
 export default function Login() {
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
-        // 这里你可以添加登录的逻辑，例如发送一个登录请求
         httpService.post('/session', values)
             .then(res => {
                 console.log(res);
                 // 这里你可以添加登录成功的逻辑，例如保存token
-                sessionStorage.setItem('token', res.data.token);
+                sessionStorage.setItem('token', res.token);
                 sessionStorage.setItem('username', values.username);
-                // 这里你可以添加其他的操作，例如重定向到首页
+                // 重定向到首页
                 window.location.href = '/';
             })
             .catch(err => {

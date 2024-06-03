@@ -10,9 +10,10 @@ const menu = (
             {sessionStorage.getItem('username') ? sessionStorage.getItem('username') : 'User'}
         </Menu.Item>
         <Menu.Item onClick={() => {
-            // sessionStorage.clear();
+            sessionStorage.clear();
             console.log('Logout');
-            // 这里你可以添加其他的操作，例如重定向到登录页面
+            // 重定向到首页
+            window.location.href = '/';
         }}>
             Logout
         </Menu.Item>
@@ -22,11 +23,39 @@ const menu = (
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        // 这里是一个模拟的推荐搜索列表，你可能需要根据实际情况来获取推荐搜索列表
-        setSuggestions(['823464', '823464', '823464']);
+        if (event.target.value) {
+            // 这里是一个模拟的推荐搜索列表，你可能需要根据实际情况来获取推荐搜索列表
+            // 查表，获取推荐
+            setSuggestions([{
+                id: '823464',
+                title: 'The Shawshank Redemption'
+            },
+            {
+                id: '653346',
+                title: 'The Godfather'
+            },
+            {
+                id: '748783',
+                title: 'The Dark Knight'
+            }]);
+            setShowSuggestions(true);
+        }
+    }
+
+    const handleSearch = (value) => {
+        if (value) {
+            // 查表，获取推荐
+            console.log('Search:', value);
+        }
+    }
+
+    const handleSuggestionClick = (title) => {
+        setSearchTerm(title);
+        setShowSuggestions(false);
     }
 
     return (
@@ -37,12 +66,19 @@ const Header = () => {
                 <Link to="/movies/top_rated" style={{ textDecoration: "none" }}><span>Top Rated</span></Link>
                 <Link to="/movies/upcoming" style={{ textDecoration: "none" }}><span>Upcoming</span></Link>
                 <div className="search-container">
-                    <Search placeholder="input search text" size="large" allowClear onChange={handleSearchChange} />
-                    {searchTerm && (
+                    <Search
+                        placeholder="input search text"
+                        size="large"
+                        allowClear
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        onSearch={value => handleSearch(value)}
+                    />
+                    {searchTerm && showSuggestions && (
                         <div className="suggestions">
                             {suggestions.map((suggestion, index) => (
-                                <Link key={index} to={`/movie/${suggestion}`} style={{ textDecoration: "none" }}>
-                                    <div>{suggestion}</div>
+                                <Link key={index} to={`/movie/${suggestion.id}`} style={{ textDecoration: "none" }} onClick={() => handleSuggestionClick(suggestion.title)}>
+                                    <div>{suggestion.title}</div>
                                 </Link>
                             ))}
                         </div>
@@ -56,7 +92,7 @@ const Header = () => {
                         </>
                     ) : (
                         <Dropdown overlay={menu}>
-                            <Avatar src={process.env.PUBLIC_URL + '/logo192.png'} />
+                            <Avatar size={50} src={process.env.PUBLIC_URL + '/logo192.png'} />
                         </Dropdown>
                     )}
                 </div>
