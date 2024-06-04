@@ -109,6 +109,27 @@
     color: black;
     font-weight: bold;
 }
+.movie__likeButton {
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.movie__likeButton.liked {
+    background-color: red;
+    color: white;
+}
+
+.movie__Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 150px;
+    font-weight: bold;
+}
 
 .movie__homeButton {
     background-color:rgb(255, 0, 0);
