@@ -18,6 +18,7 @@ public class MovieController {
     @PostMapping("/{movieID}/like")
     public Result likeVideo(@RequestHeader("Authorization") String token, @PathVariable String movieID) {
         String userId = JwtUtils.getSubject(token);
+        log.info("userId: " + userId);
         return likeService.addLike(userId, movieID);
     }
 
