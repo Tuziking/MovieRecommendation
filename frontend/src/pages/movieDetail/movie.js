@@ -20,19 +20,18 @@ const Movie = () => {
     }, [getData]);
 
     const handleLike = () => {
-        if (!liked){
+        if (!liked) {
             // 点赞
             httpService.post(`/movie/${id}/like`).catch(err => {
                 console.log(err);
             });
-        }else{
+        } else {
             // 取消点赞
             httpService.delete(`/movie/${id}/like`).catch(err => {
                 console.log(err);
             });
         }
         setLiked(!liked); // 切换点赞状态
-
     };
 
     return (
@@ -83,8 +82,8 @@ const Movie = () => {
                             {currentMovieDetail && currentMovieDetail.genres
                                 ? currentMovieDetail.genres.map((genre) => (
                                     <span className="movie__genre" id={genre.id}>
-                                          {genre.name}
-                                      </span>
+                                        {genre.name}
+                                    </span>
                                 ))
                                 : ""}
                         </div>
@@ -103,7 +102,7 @@ const Movie = () => {
                     >
                         <p>
                             <span>
-                                Like <i className="fas fa-thumbs-up"></i>
+                                {liked ? "liked" : "like"} <i className="fas fa-thumbs-up"></i>
                             </span>
                         </p>
                     </div>

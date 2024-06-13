@@ -25,7 +25,7 @@ const Home = () => {
                 <Carousel
                     showThumbs={false}
                     autoPlay={true}
-                    transitionTime={3}
+                    transitionTime={500}
                     infiniteLoop={true}
                     showStatus={false}
                 >

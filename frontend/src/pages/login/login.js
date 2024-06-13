@@ -1,8 +1,10 @@
 import { Form, Input, Button } from 'antd';
 import './login.css';
 import httpService from '../../utils/httpService';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
         httpService.post('/session', values)
@@ -12,7 +14,7 @@ export default function Login() {
                 sessionStorage.setItem('token', res.token);
                 sessionStorage.setItem('username', values.username);
                 // 重定向到首页
-                window.location.href = '/';
+                navigate('/');
             })
             .catch(err => {
                 console.log(err);

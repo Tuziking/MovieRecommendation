@@ -1,19 +1,21 @@
 import { Form, Input, Button } from 'antd';
 import './register.css';
 import httpService from '../../utils/httpService';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+    const navigate = useNavigate();
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
         // 这里你可以添加注册的逻辑，例如发送一个注册请求
         httpService.post('/user', values)
             .then(res => {
                 console.log(res);
-                // 这里你可以添加注册成功的逻辑，例如保存token
-                // sessionStorage.setItem('token', res.data.token);
-                // sessionStorage.setItem('username', values.username);
-                // 这里你可以添加其他的操作，例如重定向到首页
-                window.location.href = '/';
+                // 这里你可以添加登录成功的逻辑，例如保存token
+                sessionStorage.setItem('token', res.token);
+                sessionStorage.setItem('username', values.username);
+                // 重定向到首页
+                navigate('/');
             })
             .catch(err => {
                 console.log(err);
