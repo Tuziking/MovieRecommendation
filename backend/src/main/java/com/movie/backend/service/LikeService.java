@@ -1,6 +1,9 @@
 package com.movie.backend.service;
 
+import com.movie.backend.pojo.Likes;
 import com.movie.backend.utils.Result;
+
+import java.util.List;
 
 public interface LikeService {
     /**
@@ -16,5 +19,7 @@ public interface LikeService {
      * @return: Result
      */
     Result deleteLike(String uID, String mID);
+
+    List<Likes> getLikeList(String uID);
 
 }

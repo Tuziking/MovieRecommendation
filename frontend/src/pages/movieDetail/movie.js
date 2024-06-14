@@ -14,6 +14,8 @@ const Movie = () => {
             .then((data) => setMovie(data));
     }, [id]);
 
+    // const get
+
     useEffect(() => {
         getData();
         window.scrollTo(0, 0);
