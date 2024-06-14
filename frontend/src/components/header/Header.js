@@ -50,6 +50,15 @@ const Header = () => {
         if (value) {
             // 查表，获取推荐
             console.log('Search:', value);
+            fetch(`https://api.themoviedb.org/3/search/movie?query=${value}&api_key=4e44d9029b1270a757cddc766a1bcb63`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    // if (data.results) {
+                    //     setSuggestions(data.results);
+                    //     setShowSuggestions(true);
+                    // }
+                });
         }
     }
 
