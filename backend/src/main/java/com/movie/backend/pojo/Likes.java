@@ -14,4 +14,5 @@ public class Likes {
     private String lid;
     private String uid;
     private String mid;
+    private String name;
 }

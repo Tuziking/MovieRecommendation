@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 public class LikeServiceImpl implements LikeService {
@@ -45,6 +48,11 @@ public class LikeServiceImpl implements LikeService {
         // If such a record exists, delete it
         likeMapper.delete(new QueryWrapper<>(likes));
         return Result.success();
+    }
+
+    @Override
+    public List<Likes> getLikeList(String uID) {
+        return likeMapper.selectList(new QueryWrapper<Likes>().eq("uid", uID));
     }
 
 }
