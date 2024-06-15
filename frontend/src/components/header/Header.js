@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './Header.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { Input, Dropdown, Menu, Avatar } from 'antd';
+import { Input, Dropdown, Menu, Avatar, Space } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 const { Search } = Input;
 
 const menu = (
@@ -67,37 +68,58 @@ const Header = () => {
                 <Link to="/movies/popular" style={{ textDecoration: "none" }}><span>Popular</span></Link>
                 <Link to="/movies/top_rated" style={{ textDecoration: "none" }}><span>Top Rated</span></Link>
                 <Link to="/movies/upcoming" style={{ textDecoration: "none" }}><span>Upcoming</span></Link>
-                <div className="search-container">
-                    <Search
-                        placeholder="input search text"
-                        size="large"
-                        allowClear
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        onSearch={value => handleSearch(value)}
-                    />
-                    {searchTerm && showSuggestions && (
-                        <div className="suggestions">
-                            {suggestions.map((suggestion, index) => (
-                                <Link key={index} to={`/movie/${suggestion.id}`} style={{ textDecoration: "none" }} onClick={() => handleSuggestionClick(suggestion.title)}>
-                                    <div>{suggestion.title}</div>
-                                </Link>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <div className="loginButton">
-                    {!sessionStorage.getItem('token') ? (
-                        <>
-                            <Link to="/login" style={{ textDecoration: "none" }}><span>Sign In</span></Link>
-                            <Link to="/register" style={{ textDecoration: "none" }}><span>Sign Up</span></Link>
-                        </>
-                    ) : (
-                        <Dropdown overlay={menu}>
-                            <Avatar size={50} src={process.env.PUBLIC_URL + '/logo192.png'} />
-                        </Dropdown>
-                    )}
-                </div>
+
+            </div>
+            <div className='headerRight'>
+                <Space size={30}>
+                    <div className="search-container">
+                        <Search
+                            placeholder="input search text"
+                            size="large"
+                            allowClear
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            onSearch={value => handleSearch(value)}
+                        />
+                        {searchTerm && showSuggestions && (
+                            <div className="suggestions">
+                                {suggestions.map((suggestion, index) => (
+                                    <Link key={index} to={`/movie/${suggestion.id}`} style={{ textDecoration: "none" }} onClick={() => handleSuggestionClick(suggestion.title)}>
+                                        <div>{suggestion.title}</div>
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="loginButton">
+                        {!sessionStorage.getItem('token') ? (
+                            <>
+                                <Dropdown overlay={
+                                    <Menu>
+                                        <Menu.Item key="1" onClick={() => navigate('/login')}>
+                                            Sign In
+                                        </Menu.Item>
+                                        <Menu.Item key="2" onClick={() => navigate('/register')}>
+                                            Sign Up
+                                        </Menu.Item>
+                                    </Menu>
+                                }>
+                                    <Avatar
+                                        size={50}
+                                        style={{
+                                            backgroundColor: '#444444',
+                                        }}
+                                        icon={<UserOutlined />}
+                                    />
+                                </Dropdown>
+                            </>
+                        ) : (
+                            <Dropdown overlay={menu}>
+                                <Avatar size={50} src={process.env.PUBLIC_URL + '/logo192.png'} />
+                            </Dropdown>
+                        )}
+                    </div>
+                </Space>
             </div>
         </div>
     );

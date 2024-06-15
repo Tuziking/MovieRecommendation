@@ -97,7 +97,7 @@ const Movie = () => {
                 </div>
             </div>
             <div className="movie__links">
-                {currentMovieDetail && currentMovieDetail.homepage && (
+                {sessionStorage.getItem('token') && currentMovieDetail && currentMovieDetail.homepage && (
                     <div
                         className={`movie__likeButton movie__Button ${liked ? "liked" : ""}`}
                         onClick={handleLike}

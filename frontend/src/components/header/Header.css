@@ -65,6 +65,5 @@ a>span:hover {
 }
 
 .loginButton {
-    position: absolute;
-    right: 30px;
+    position: relative;
 }

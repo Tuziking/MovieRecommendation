@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
     const navigate = useNavigate();
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
         httpService.post('/session', values)
             .then(res => {
                 console.log(res);
