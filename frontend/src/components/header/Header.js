@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input, Dropdown, Menu, Avatar } from 'antd';
 const { Search } = Input;
 
@@ -24,6 +24,7 @@ const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const navigate = useNavigate();
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -50,15 +51,16 @@ const Header = () => {
         if (value) {
             // 查表，获取推荐
             console.log('Search:', value);
-            fetch(`https://api.themoviedb.org/3/search/movie?query=${value}&api_key=4e44d9029b1270a757cddc766a1bcb63`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    // if (data.results) {
-                    //     setSuggestions(data.results);
-                    //     setShowSuggestions(true);
-                    // }
-                });
+            navigate(`/search/movie?query=${value}`);
+            // fetch(`https://api.themoviedb.org/3/search/movie?query=${value}&api_key=4e44d9029b1270a757cddc766a1bcb63`)
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         console.log(data);
+            //         // if (data.results) {
+            //         //     setSuggestions(data.results);
+            //         //     setShowSuggestions(true);
+            //         // }
+            //     });
         }
     }
 

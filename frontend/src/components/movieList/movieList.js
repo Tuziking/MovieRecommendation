@@ -7,22 +7,20 @@ import httpService from "../../utils/httpService";
 const MovieList = () => {
 
     const [movieList, setMovieList] = useState([])
-    const [idList, setIdList] = useState([])
     const { type } = useParams()
 
     const getData = useCallback(() => {
         //TODO是否登录
-        if(!sessionStorage.getItem('token')){
-            console.log("未登录");
+        if (!sessionStorage.getItem('token')) {
             fetch(`https://api.themoviedb.org/3/movie/${type ? type : "popular"}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
                 .then(res => res.json())
                 .then(data => setMovieList(data.results))
-        }else {
+        } else {
             //先向后端发送请求，获取用户喜欢的电影
             httpService.get(`/movie`)
                 .then(res => {
                     console.log(res);
-                    setIdList(res.data);
+                    const idList = res.data;
                     // 使用 Promise.all 并行处理所有请求
                     return Promise.all(
                         idList.map(id =>
