@@ -25,16 +25,20 @@ const MovieList = (props) => {
             }
         } else {
             //先向后端发送请求，获取用户喜欢的电影
-            // let idList = [1022789, 573435, 974635, 748783, 1041613, 882059, 1087388, 1086747, 519182, 1093995, 1146972, 1034751, 1012201, 856289, 1010600, 862, 8844, 15602, 31357, 11862, 949, 11860, 45325, 9091, 710, 9087, 12110, 31032, 10858, 1408, 524,4584,5]
             if (props.type === "like") {
-                let idList = [1022789, 573435, 974635, 748783, 1041613, 882059, 1087388, 1086747, 519182, 1093995, 1146972, 1034751, 1012201, 856289, 1010600, 862, 8844, 15602, 31357, 11862, 949, 11860, 45325, 9091, 710, 9087, 12110, 31032, 10858, 1408, 524, 4584, 5];
+                // let idList = [1022789, 573435, 974635, 748783, 1041613, 882059, 1087388, 1086747, 519182, 1093995, 1146972, 1034751, 1012201, 856289, 1010600, 862, 8844, 15602, 31357, 11862, 949, 11860, 45325, 9091, 710, 9087, 12110, 31032, 10858, 1408, 524, 4584, 5];
                 console.log("likeeee");
-                Promise.all(
-                    idList.map(id =>
-                        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
-                            .then(res => res.json())
-                    )
-                )
+                httpService.get(`/movie/like`)
+                    .then(res => {
+                        let idList = res.data;
+                        idList = idList.map(item => item.mid);
+                        return Promise.all(
+                            idList.map(id =>
+                                fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
+                                    .then(res => res.json())
+                            )
+                        );
+                    })
                     .then(mList => {
                         // 所有请求完成后，一次性更新 movieList
                         setMovieList(mList);
@@ -80,7 +84,7 @@ const MovieList = (props) => {
 
     return (
         <div className="movie__list">
-            <h2 className="list__title">{(type ? type : props.type).toUpperCase()}</h2>
+            <h2 className="list__title">{(type || props.type || 'MovieList').toUpperCase()}</h2>
             <div className="list__cards">
                 {
                     movieList.map(movie => (

@@ -32,6 +32,12 @@ public class MovieController {
     @Autowired
     private LikeService likeService;
 
+    @GetMapping("/like")
+    public Result getLikeList(@RequestHeader("Authorization") String token) {
+        String userId = JwtUtils.getSubject(token);
+        return Result.success(likeService.getLikeList(userId));
+    }
+
     @PostMapping("/{movieID}/like")
     public Result likeVideo(@RequestHeader("Authorization") String token, @PathVariable String movieID) {
         String userId = JwtUtils.getSubject(token);
