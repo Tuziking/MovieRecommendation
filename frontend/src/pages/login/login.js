@@ -12,6 +12,7 @@ export default function Login() {
                 // 这里你可以添加登录成功的逻辑，例如保存token
                 sessionStorage.setItem('token', res.token);
                 sessionStorage.setItem('username', values.username);
+                console.log('Login Success: ' + sessionStorage.getItem('username') + '!');
                 // 重定向到首页
                 navigate('/');
             })

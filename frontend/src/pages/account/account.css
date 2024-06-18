@@ -1,0 +1,31 @@
+.account__page {
+    padding: 0 3rem 3rem 3rem;
+}
+
+.like__title {
+    font-size: 1.75rem;
+    margin: 2.5rem;
+}
+
+.like__cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.layout_content {
+    display: flex;
+}
+
+.layout_content>aside {
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 750px;
+}
+
+.account_link {
+    color: rgb(167, 167, 167);
+    border-bottom: 1px solid #5c5c5c;
+}

@@ -8,7 +8,9 @@ const { Search } = Input;
 const menu = (
     <Menu>
         <Menu.Item>
-            {sessionStorage.getItem('username') ? sessionStorage.getItem('username') : 'User'}
+            <Link to="/account" style={{ textDecoration: "none" }}>
+                {sessionStorage.getItem('username') || 'User'}
+            </Link>
         </Menu.Item>
         <Menu.Item onClick={() => {
             sessionStorage.clear();

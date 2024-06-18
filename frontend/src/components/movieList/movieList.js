@@ -4,7 +4,7 @@ import { useParams, useLocation } from "react-router-dom"
 import Cards from "../card/card"
 import httpService from "../../utils/httpService";
 
-const MovieList = () => {
+const MovieList = (props) => {
 
     const [movieList, setMovieList] = useState([])
     const { type } = useParams()
@@ -25,27 +25,46 @@ const MovieList = () => {
             }
         } else {
             //先向后端发送请求，获取用户喜欢的电影
-            // let idList = [1022789, 573435, 974635, 748783, 1041613, 882059, 1087388, 1086747, 519182, 1093995, 1146972, 1034751, 1012201, 856289, 1010600]
-            httpService.get(`/movie`)
-                .then(res => {
-                    console.log(res);
-                    const idList = res.data;
-                    // 使用 Promise.all 并行处理所有请求
-                    return Promise.all(
-                        idList.map(id =>
-                            fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
-                                .then(res => res.json())
-                        )
-                    );
-                })
-                .then(mList => {
-                    // 所有请求完成后，一次性更新 movieList
-                    setMovieList(mList);
-                    console.log(mList);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            // let idList = [1022789, 573435, 974635, 748783, 1041613, 882059, 1087388, 1086747, 519182, 1093995, 1146972, 1034751, 1012201, 856289, 1010600, 862, 8844, 15602, 31357, 11862, 949, 11860, 45325, 9091, 710, 9087, 12110, 31032, 10858, 1408, 524,4584,5]
+            if (props.type === "like") {
+                let idList = [1022789, 573435, 974635, 748783, 1041613, 882059, 1087388, 1086747, 519182, 1093995, 1146972, 1034751, 1012201, 856289, 1010600, 862, 8844, 15602, 31357, 11862, 949, 11860, 45325, 9091, 710, 9087, 12110, 31032, 10858, 1408, 524, 4584, 5];
+                console.log("likeeee");
+                Promise.all(
+                    idList.map(id =>
+                        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
+                            .then(res => res.json())
+                    )
+                )
+                    .then(mList => {
+                        // 所有请求完成后，一次性更新 movieList
+                        setMovieList(mList);
+                        console.log(mList);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            } else {
+                httpService.get(`/movie`)
+                    .then(res => {
+                        console.log(res);
+                        const idList = res.data;
+                        // 使用 Promise.all 并行处理所有请求
+                        return Promise.all(
+                            idList.map(id =>
+                                fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
+                                    .then(res => res.json())
+                            )
+                        );
+                    })
+                    .then(mList => {
+                        // 所有请求完成后，一次性更新 movieList
+                        setMovieList(mList);
+                        console.log(mList);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
         }
         // 检查type，转入自己的API
         // if (type === "search") {
@@ -53,7 +72,7 @@ const MovieList = () => {
         // fetch(`https://api.themoviedb.org/3/movie/${type ? type : "popular"}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
         //     .then(res => res.json())
         //     .then(data => setMovieList(data.results))
-    }, [type, query])
+    }, [type, query, props])
 
     useEffect(() => {
         getData()
@@ -61,7 +80,7 @@ const MovieList = () => {
 
     return (
         <div className="movie__list">
-            <h2 className="list__title">{(type ? type : "POPULAR").toUpperCase()}</h2>
+            <h2 className="list__title">{(type ? type : props.type).toUpperCase()}</h2>
             <div className="list__cards">
                 {
                     movieList.map(movie => (

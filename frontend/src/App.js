@@ -6,6 +6,7 @@ import Header from './components/header/Header';
 import Home from './pages/home/home';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
+import AccountPage from './pages/account/account';
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
           <Route index element={<><Header /><Home /></>}></Route>
           <Route path="movie/:id" element={<><Header /><Movie /></>}></Route>
           <Route path="movies/:type" element={<><Header /><MovieList /></>}></Route>
+          <Route path="account" element={<><Header /><AccountPage /></>}>
+            <Route path="" element={<MovieList type="like" />}></Route>
+            <Route path="like" element={<MovieList type="like" />}></Route>
+          </Route>
           <Route path="/*" element={<h1>Error Page</h1>}></Route>
         </Routes>
       </Router>
