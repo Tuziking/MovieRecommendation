@@ -32,21 +32,30 @@ const Header = () => {
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
         if (event.target.value) {
-            // 这里是一个模拟的推荐搜索列表，你可能需要根据实际情况来获取推荐搜索列表
+            fetch(`https://api.themoviedb.org/3/search/movie?query=${event.target.value}&api_key=4e44d9029b1270a757cddc766a1bcb63`)
+                .then(res => res.json())
+                .then(data => {
+                    const results = data.results.slice(0, 10).map(movie => ({
+                        id: movie.id,
+                        title: movie.original_title
+                    }));
+                    setSuggestions(results);
+                    setShowSuggestions(true);
+                });
             // 查表，获取推荐
-            setSuggestions([{
-                id: '823464',
-                title: 'The Shawshank Redemption'
-            },
-            {
-                id: '653346',
-                title: 'The Godfather'
-            },
-            {
-                id: '748783',
-                title: 'The Dark Knight'
-            }]);
-            setShowSuggestions(true);
+            // setSuggestions([{
+            //     id: '823464',
+            //     original_title: 'The Shawshank Redemption'
+            // },
+            // {
+            //     id: '653346',
+            //     title: 'The Godfather'
+            // },
+            // {
+            //     id: '748783',
+            //     title: 'The Dark Knight'
+            // }]);
+            // setShowSuggestions(true);
         }
     }
 
