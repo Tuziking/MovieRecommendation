@@ -81,7 +81,7 @@ const Home = () => {
                         ))
                     }
                 </Carousel>
-                <MovieList />
+                {popularMovies.length > 0 ? <MovieList data={popularMovies} /> : <h1>Loading...</h1>}
             </div>
         </>
     )

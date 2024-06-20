@@ -20,7 +20,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -54,15 +57,19 @@ public class MovieController {
     @GetMapping("")
     public Result getRecMovies(@RequestHeader("Authorization") String token) throws JsonProcessingException {
         String userId = JwtUtils.getSubject(token);
-        List<Likes>  likesList = likeService.getLikeList(userId);
+        List<Likes> likesList = likeService.getLikeList(userId);
 
-        if(likesList.size() <3 ){
-            return Result.error("You have not liked any movies yet.");
+        if (likesList.size() < 3) {
+            return Result.error("You have not liked enough movies yet.");
         }
+
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Integer> allMovieIds = new ArrayList<>();
-        //取前三个电影的id
-        for(int i = 0;i<3;i++){
+        Set<Integer> allMovieIds = new HashSet<>();
+
+        HttpClient client = HttpClient.newHttpClient();
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for (int i = likesList.size() - 3; i < likesList.size(); i++) {
             log.info("movieID: " + likesList.get(i).getMid());
             String id = likesList.get(i).getMid();
             HttpRequest request = HttpRequest.newBuilder()
@@ -71,36 +78,34 @@ public class MovieController {
                     .header("Authorization", token)
                     .GET()
                     .build();
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response;
-            try {
-                response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                // Convert response body to JSON format string
-
-//                Object json = objectMapper.readValue(response.body(), Object.class);
-//                String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-//                result.append(jsonString);
-////                return Result.success(jsonString);
-                if (response.statusCode()==200) {
-                    ArrayNode jsonResponse = (ArrayNode) objectMapper.readTree(response.body());
-                    int flag = 0;
-                    for (JsonNode item : jsonResponse) {
-                        if(flag == 4){
-                            break;
+            CompletableFuture<Void> future = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenAccept(response -> {
+                        if (response.statusCode() == 200) {
+                            try {
+                                ArrayNode jsonResponse = (ArrayNode) objectMapper.readTree(response.body());
+                                for (JsonNode item : jsonResponse) {
+                                    int movieId = item.get("id").asInt();
+                                    allMovieIds.add(movieId);
+                                }
+                            } catch (JsonProcessingException e) {
+                                log.error("Error processing JSON response", e);
+                            }
+                        } else {
+                            log.error("Error in recommendation response: " + response.statusCode());
                         }
-                        int movieId = item.get("id").asInt();
-                        allMovieIds.add(movieId);
-                        flag++;
-                    }
-                } else {
-                    return Result.error("Error in recommendation response");
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-                return Result.error("Error sending request to recommendation service");
-            }
+                    })
+                    .exceptionally(ex -> {
+                        log.error("Error sending request to recommendation service", ex);
+                        return null;
+                    });
+
+            futures.add(future);
         }
+
+        // 等待所有异步任务完成
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
         return Result.success(allMovieIds);
     }
 }
