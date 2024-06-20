@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.movie.backend.mapper.RatingMapper;
 import com.movie.backend.pojo.Likes;
+import com.movie.backend.pojo.Rating;
 import com.movie.backend.service.LikeService;
 import com.movie.backend.utils.JwtUtils;
 import com.movie.backend.utils.Result;
@@ -19,10 +21,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +33,9 @@ public class MovieController {
 
     @Autowired
     private LikeService likeService;
+
+    @Autowired
+    private RatingMapper ratingMapper;
 
     @GetMapping("/like")
     public Result getLikeList(@RequestHeader("Authorization") String token) {
@@ -107,5 +109,21 @@ public class MovieController {
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         return Result.success(allMovieIds);
+    }
+
+    @PostMapping("/{id}/rate")
+    public Result rateMovie(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody Map<String,Double> rate) {
+        String userId = JwtUtils.getSubject(token);
+        log.info("userId: " + userId);
+        log.info("movieId: " + id);
+        log.info("rating: " + rate.get("rating"));
+
+        Rating rating = new Rating();
+        rating.setMovieId(id);
+        rating.setUserId(userId);
+        rating.setRating(rate.get("rating"));
+        rating.setTimestamp(new Date().toInstant());
+        ratingMapper.insert(rating);
+        return Result.success();
     }
 }
