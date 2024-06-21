@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "./movie.css";
 import { useParams } from "react-router-dom";
+import { Button, Rate } from "antd";
 import httpService from "../../utils/httpService";
 
 const Movie = () => {
     const [currentMovieDetail, setMovie] = useState();
     const [liked, setLiked] = useState(false); // 新增状态来跟踪点赞状态
     const { id } = useParams();
+    const [rates, setRates] = useState(5);
 
     const getData = useCallback(() => {
         fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
@@ -34,6 +36,12 @@ const Movie = () => {
             });
         }
         setLiked(!liked); // 切换点赞状态
+    };
+
+    const handleRating = () => {
+        httpService.post(`/movie/${id}/rate`, { rating: rates }).catch(err => {
+            console.log(err);
+        });
     };
 
     return (
@@ -95,6 +103,19 @@ const Movie = () => {
                         <div>{currentMovieDetail ? currentMovieDetail.overview : ""}</div>
                     </div>
                 </div>
+            </div>
+            <div className="movie__rate">
+                {sessionStorage.getItem('token') && currentMovieDetail && (
+                    <>
+                        <span style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}>Rate this movie： </span>
+                        <Rate
+                            allowHalf
+                            defaultValue={rates}
+                            onChange={value => setRates(value)}
+                        />
+                        <Button type="link" style={{ fontWeight: 'bold', color: 'black' }} onClick={handleRating}>Submit</Button>
+                    </>
+                )}
             </div>
             <div className="movie__links">
                 {sessionStorage.getItem('token') && currentMovieDetail && (
