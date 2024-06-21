@@ -53,7 +53,7 @@ const MovieList = (props) => {
                             console.log(err);
                         });
                 } else if (!props.data) {
-                    httpService.get(`/movie`)
+                    httpService.get(`/recommend`)
                         .then(res => {
                             console.log(res);
                             const idList = res.data;
@@ -77,12 +77,6 @@ const MovieList = (props) => {
                     setMovieList(props.data);
                 }
         }
-        // 检查type，转入自己的API
-        // if (type === "search") {
-        // 原有API
-        // fetch(`https://api.themoviedb.org/3/movie/${type ? type : "popular"}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`)
-        //     .then(res => res.json())
-        //     .then(data => setMovieList(data.results))
     }, [])
 
     useEffect(() => {
