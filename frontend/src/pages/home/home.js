@@ -21,7 +21,7 @@ const Home = () => {
                 .then(data => setPopularMovies(data.results))
         } else {
             //先向后端发送请求，获取用户喜欢的电影
-            httpService.get(`/movie`)
+            httpService.get(`/recommend`)
                 .then(res => {
                     console.log(res);
                     const idList = res.data;
