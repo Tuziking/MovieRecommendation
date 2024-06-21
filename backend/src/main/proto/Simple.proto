@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc";
+option java_outer_classname = "SimpleProto";
+
+service SimpleService {
+  rpc SimpleMethod (SimpleRequest) returns (SimpleResponse);
+}
+
+message SimpleRequest {
+  string name = 1;
+}
+
+message SimpleResponse {
+  string message = 1;
+}
