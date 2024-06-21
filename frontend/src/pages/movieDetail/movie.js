@@ -126,7 +126,7 @@ const Movie = () => {
                     </div>
                 </div>
                 <div className="movie__rate">
-                    {currentMovieDetail && (
+                    {sessionStorage.getItem('token') && currentMovieDetail && (
                         <>
                             <span style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}>Rate this movie： </span>
                             <Rate
