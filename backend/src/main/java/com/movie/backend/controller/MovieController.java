@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.movie.backend.mapper.RatingMapper;
 import com.movie.backend.pojo.Likes;
 import com.movie.backend.pojo.Rating;
+import com.movie.backend.service.GrpcClientService;
 import com.movie.backend.service.LikeService;
 import com.movie.backend.utils.JwtUtils;
 import com.movie.backend.utils.Result;
@@ -37,6 +38,9 @@ public class MovieController {
     @Autowired
     private RatingMapper ratingMapper;
 
+    @Autowired
+    private GrpcClientService grpcClientService;
+
     @GetMapping("/like")
     public Result getLikeList(@RequestHeader("Authorization") String token) {
         String userId = JwtUtils.getSubject(token);
@@ -57,6 +61,25 @@ public class MovieController {
     }
 
     @GetMapping("")
+//    public Result getRecMovies(@RequestHeader("Authorization") String token) throws JsonProcessingException {
+//        String userId = JwtUtils.getSubject(token);
+//        List<Likes> likesList = likeService.getLikeList(userId);
+//
+//        if (likesList.size() < 3) {
+//            return Result.error("You have not liked enough movies yet.");
+//        }
+//
+//        Set<String> movieIds = new HashSet<>();
+//        for (int i = likesList.size() - 3; i < likesList.size(); i++) {
+//            log.info("movieID: " + likesList.get(i).getMid());
+//            movieIds.add(likesList.get(i).getMid());
+//        }
+//
+//        List<Integer> recommendations = grpcClientService.getRecommendations(List.copyOf(movieIds), userId);
+//
+//        return Result.success(new HashSet<>(recommendations));
+//    }
+
     public Result getRecMovies(@RequestHeader("Authorization") String token) throws JsonProcessingException {
         String userId = JwtUtils.getSubject(token);
         List<Likes> likesList = likeService.getLikeList(userId);
@@ -87,7 +110,7 @@ public class MovieController {
                             try {
                                 ArrayNode jsonResponse = (ArrayNode) objectMapper.readTree(response.body());
                                 for (JsonNode item : jsonResponse) {
-                                    int movieId = item.get("id").asInt();
+                                    int movieId = item.asInt();
                                     allMovieIds.add(movieId);
                                 }
                             } catch (JsonProcessingException e) {

@@ -8,9 +8,10 @@ service SimpleService {
 }
 
 message SimpleRequest {
-  string name = 1;
+  repeated string movieIds = 1;
+  string userId = 2;
 }
 
 message SimpleResponse {
-  string message = 1;
+  repeated int32 recommendations = 1;
 }
