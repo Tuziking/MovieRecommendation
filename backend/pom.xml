@@ -11,8 +11,13 @@
 	<groupId>com.movie</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>backend</name>
 	<description>backend</description>
+	<modules>
+		<module>untitled</module>
+		<module>api-gateway</module>
+	</modules>
 	<properties>
 		<java.version>17</java.version>
 		<grpc.version>1.52.0</grpc.version>
