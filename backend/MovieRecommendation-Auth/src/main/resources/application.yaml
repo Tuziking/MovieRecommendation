@@ -1,0 +1,33 @@
+server:
+    port: 8081
+
+spring:
+    datasource:
+        username: root
+        password: bjtu2024
+        url: jdbc:mysql://39.106.39.209:3306/movie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        hikari:
+            maximum-pool-size: 10
+            minimum-idle: 5
+            idle-timeout: 300000 # 5 minutes
+            max-lifetime: 1800000 # 30 minutes
+            connection-timeout: 30000 # 30 seconds
+            leak-detection-threshold: 2000 # 2 seconds
+    data:
+        redis:
+            port: 6379
+            host: 39.106.39.209
+    application:
+        name: auth-service-qb
+    cloud:
+        zookeeper:
+            connect-string: 8.140.250.103:2181
+
+
+jwt:
+    secret: 1234567890123456
+    expirationTime: 604800
+    issuer: springboot3-security
+    header: Authorization
+    tokenHead: Bearer

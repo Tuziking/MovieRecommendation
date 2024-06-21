@@ -2,8 +2,24 @@ server:
   port: 8080
 
 spring:
+  datasource:
+    username: root
+    password: bjtu2024
+    url: jdbc:mysql://39.106.39.209:3306/movie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000 # 5 minutes
+      max-lifetime: 1800000 # 30 minutes
+      connection-timeout: 30000 # 30 seconds
+      leak-detection-threshold: 2000 # 2 seconds
+  data:
+    redis:
+      port: 6379
+      host: 39.106.39.209
   application:
-    name: api-gateway-service
+    name: api-gateway-service-qb
   cloud:
     zookeeper:
       connect-string: 8.140.250.103:2181
@@ -16,17 +32,21 @@ spring:
         - id: recommend-service-qb
           uri: lb://recommend-service-qb
           predicates:
-            - Path=/videos/**
-        - id: file-service
-          uri: lb://file-service
+            - Path=/recommend/**
+        - id: movie-service
+          uri: lb://movie-service
           predicates:
-            - Path=/file/**
+            - Path=/movie/**
 
 me:
   auth:
     excludePaths:
-      - /auth/**
-      - /file/source/**
+      - /user/**
+      - /session
+      - /movie/**
+      - /recommend
+#      - /auth/**
+#      - /file/source/**
 
 logging:
   level:

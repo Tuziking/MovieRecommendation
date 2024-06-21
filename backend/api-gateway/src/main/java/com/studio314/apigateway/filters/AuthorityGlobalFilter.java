@@ -1,7 +1,7 @@
 package com.studio314.apigateway.filters;
 
 import com.studio314.apigateway.config.AuthProperties;
-import com.studio314.tiknotokcommon.utils.JWTUtils;
+import com.studio314.apigateway.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +48,7 @@ public class AuthorityGlobalFilter implements GlobalFilter, Ordered {
         //解析token
         String userId = null;
         try {
-            userId = JWTUtils.getUserId(token);
+            userId = JwtUtils.getSubject(token);
         } catch (Exception e) {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.UNAUTHORIZED);

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc";
+option java_outer_classname = "SimpleProto";
+
+service SimpleService {
+  rpc SimpleMethod (SimpleRequest) returns (SimpleResponse);
+}
+
+message SimpleRequest {
+  repeated string movieIds = 1;
+  string userId = 2;
+}
+
+message SimpleResponse {
+  repeated int32 recommendations = 1;
+}
