@@ -31,3 +31,32 @@ jwt:
     issuer: springboot3-security
     header: Authorization
     tokenHead: Bearer
+
+springdoc:
+    swagger-ui:
+        path: /swagger-ui.html
+        # path: 配置swagger-ui.html/UI界面的访问路径,默认为/swagger-ui.html
+        tags-sorter: alpha
+        # tags-sorter: 接口文档中的tags排序规则,默认为alpha,可选值为alpha(按字母顺序排序)或as-is(按照在代码中定义的顺序排序)
+        operations-sorter: alpha
+
+    api-docs:
+        path: /v3/api-docs
+        # path: 配置api-docs的访问路径,默认为/v3/api-docs
+
+
+
+# knife4j项目访问访问地址:http://127.0.0.1:8080/doc.html#/home
+knife4j:
+    enable: true
+    # 设置为true以启用Knife4j增强功能,这将再应用程序中启用Knife4j UI
+    setting:
+        # language: 设置Knife4j UI的语言,默认为zh_cn,可选值为zh_cn或en
+        language: zh_cn
+    #开启生产环境屏蔽
+    production: false
+    #是否启用登录认证
+    basic:
+        enable: true
+        username: wck
+        password: 123456

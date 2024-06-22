@@ -8,6 +8,7 @@ import com.movie.mapper.RatingMapper;
 import com.movie.pojo.Likes;
 import com.movie.pojo.Rating;
 import com.movie.service.LikeService;
+import com.movie.service.StatusService;
 import com.movie.utils.JwtUtils;
 import com.movie.utils.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,15 @@ public class MovieController {
 
     @Autowired
     private RatingMapper ratingMapper;
+
+    @Autowired
+    private StatusService statusService;
+
+    @GetMapping("{id}/status")
+    public Result getStatus(@RequestHeader("Authorization") String token, @PathVariable String id) {
+        String userId = JwtUtils.getSubject(token);
+        return statusService.getStatus(userId, id);
+    }
 
     @GetMapping("/like")
     public Result getLikeList(@RequestHeader("Authorization") String token) {

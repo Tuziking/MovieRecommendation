@@ -39,7 +39,16 @@ public class MovieController {
     private RatingMapper ratingMapper;
 
     @Autowired
+    private StatusService statusService;
+
+    @Autowired
     private GrpcClientService grpcClientService;
+
+    @GetMapping("{id}/status")
+    public Result getStatus(@RequestHeader("Authorization") String token, @PathVariable String id) {
+        String userId = JwtUtils.getSubject(token);
+        return statusService.getStatus(userId, id);
+    }
 
     @GetMapping("/like")
     public Result getLikeList(@RequestHeader("Authorization") String token) {

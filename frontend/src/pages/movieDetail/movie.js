@@ -16,7 +16,7 @@ const Movie = () => {
             .then((res) => res.json())
             .then((data) => {
                 if (sessionStorage.getItem('token')) {
-                    httpService.get(`/rating/${id}/status`).then(res => {
+                    httpService.get(`/movie/${id}/status`).then(res => {
                         setLiked(res.data.like);
                         if (res.data.rating !== -1) {
                             setRates(res.data.rating);

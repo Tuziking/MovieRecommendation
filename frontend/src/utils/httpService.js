@@ -3,12 +3,13 @@ import axios from 'axios';
 class HttpService {
     constructor() {
         this.http = axios.create({
-            // baseURL: 'http://localhost:8080',
-            baseURL: 'http://47.93.84.179:7500',
+            baseURL: 'http://localhost:8080',
+            // baseURL: 'http://47.93.84.179:7500',
             timeout: 100000,
             headers: {
                 'Content-Type': 'application/json',
             },
+            withCredentials: true,
         });
     }
 
